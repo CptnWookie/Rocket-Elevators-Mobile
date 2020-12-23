@@ -34,10 +34,7 @@ const LoginScreen = ({ navigation }) => {
 
   const onLoginPressed = async () => {
     await axios
-      .get(
-        "https://rocketrestapi.azurewebsites.net/api/Employees/employees/" +
-          email.value
-      )
+      .get("https://rocketrestapi.azurewebsites.net/api/Employees/employees/" + email.value)
       .then((result) => {
         if (result.status == 200) {
           navigation.navigate("HomeScreen");
@@ -55,8 +52,6 @@ const LoginScreen = ({ navigation }) => {
         />
       </TouchableOpacity>
       <Button title="some title" onPress={() => navigation.goBack()} />
-      {/* <Header>Rocket Elevators</Header>
-      <Header>Mobile</Header> */}
       <Header>Login</Header>
       <Logo />
       <TextInput
@@ -71,9 +66,9 @@ const LoginScreen = ({ navigation }) => {
         textContentType="emailAddress"
         keyboardType="email-address"
       />
-      {/* <Button mode="contained" onPress={onLoginPressed}>
+      {/* <ButtonConnect mode="contained" onPress={() => onLoginPressed()}>
         Connect
-      </Button> */}
+      </ButtonConnect> */}
 
       <ButtonConnect
         mode="contained"
