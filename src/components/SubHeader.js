@@ -1,16 +1,16 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Text } from 'react-native-paper'
-import { theme } from '../core/theme'
+import { theme } from './theme'
 
 const SubHeader = (props) => <Text style={styles.subheader} {...props} />
 
 const styles = StyleSheet.create({
   subheader: {
     fontSize: 25,
-    color: theme.colors.textwhite,
+    color: '#FFFFFF',
     fontWeight: 'bold',
-    paddingVertical: 35,
+    marginTop: 40,
     textShadowColor:'#000000',
     textShadowRadius:20,
     

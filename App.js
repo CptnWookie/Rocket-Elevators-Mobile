@@ -2,11 +2,12 @@ import React from 'react'
 import { Provider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { theme } from './src/core/theme'
+import { theme } from './src/components/theme'
 import {
   StartScreen,
   LoginScreen,
   HomeScreen,
+  ElevatorStatus,
 } from './src/screens'
 
 const Stack = createStackNavigator()
@@ -24,6 +25,7 @@ const App = () => {
           <Stack.Screen name="StartScreen" component={StartScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="ElevatorStatus" component={ElevatorStatus} />
           
         </Stack.Navigator>
       </NavigationContainer>

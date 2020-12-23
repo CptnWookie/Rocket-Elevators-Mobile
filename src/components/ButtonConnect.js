@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 import { Button as PaperButton } from 'react-native-paper'
 import { theme } from './theme'
 
-const Button = ({ mode, style, ...props }) => (
+const ButtonConnect = ({ mode, style, ...props }) => (
   <PaperButton
     style={[
       styles.button,
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Button
+export default ButtonConnect

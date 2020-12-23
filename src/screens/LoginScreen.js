@@ -1,34 +1,60 @@
-import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, View } from 'react-native'
-import { Text } from 'react-native-paper'
-import Background from '../components/Background'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import Button from '../components/Button'
-import TextInput from '../components/TextInput'
-import BackButton from '../components/BackButton'
-import { theme } from '../core/theme'
-import { emailValidator } from '../helpers/emailValidator'
+import React, { useState, useEffect } from "react";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  View,
+  Button,
+} from "react-native";
+import { Text } from "react-native-paper";
+import Background from "../components/Background";
+import Logo from "../components/Logo";
+import Header from "../components/Header";
+import ButtonConnect from "../components/ButtonConnect";
+import TextInput from "../components/TextInput";
+import BackButton from "../components/BackButton";
+import { theme } from "../components/theme";
+import { emailValidator } from "../components/EmailValidator";
+import axios from "axios";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState({ value: '', error: '' })
-  
-  const onLoginPressed = () => {
-    const emailError = emailValidator(email.value)
-    
-    if (emailError) {
-      setEmail({ ...email, error: emailError })
-      return
-    }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'HomeScreen' }],
-    })
-  }
+  const [email, setEmail] = useState(() => {
+    return { value: "", error: "" };
+  });
+
+  const changeEmailInput = (_email) => {
+    setEmail((prev) => {
+      return {
+        value: _email,
+        error: "",
+      };
+    });
+  };
+
+  const onLoginPressed = async () => {
+    await axios
+      .get(
+        "https://rocketrestapi.azurewebsites.net/api/Employees/employees/" +
+          email.value
+      )
+      .then((result) => {
+        if (result.status == 200) {
+          navigation.navigate("HomeScreen");
+        }
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <Background>
-      <BackButton goBack={navigation.goBack} />
+      <TouchableOpacity onPress={navigation.goBack} style={styles.container}>
+        <Image
+          style={styles.image}
+          source={require("../assets/arrow_back.png")}
+        />
+      </TouchableOpacity>
+      <Button title="some title" onPress={() => navigation.goBack()} />
       {/* <Header>Rocket Elevators</Header>
       <Header>Mobile</Header> */}
       <Header>Login</Header>
@@ -37,7 +63,7 @@ const LoginScreen = ({ navigation }) => {
         label="Email"
         returnKeyType="next"
         value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
+        onChangeText={changeEmailInput}
         error={!!email.error}
         errorText={email.error}
         autoCapitalize="none"
@@ -45,23 +71,38 @@ const LoginScreen = ({ navigation }) => {
         textContentType="emailAddress"
         keyboardType="email-address"
       />
-      <Button mode="contained" onPress={onLoginPressed}>
+      {/* <Button mode="contained" onPress={onLoginPressed}>
         Connect
-      </Button>
-      
+      </Button> */}
+
+      <ButtonConnect
+        mode="contained"
+        onPress={() => navigation.navigate("HomeScreen")}
+      >
+        Connect
+      </ButtonConnect>
     </Background>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 4,
   },
   link: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: theme.colors.secondary,
   },
-})
+  container: {
+    position: "absolute",
+    top: 10 + getStatusBarHeight(),
+    left: 4,
+  },
+  image: {
+    width: 24,
+    height: 24,
+  },
+});
 
-export default LoginScreen
+export default LoginScreen;

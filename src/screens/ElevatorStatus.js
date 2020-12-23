@@ -1,30 +1,26 @@
-import React from 'react'
-import Background from '../components/Background'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import Paragraph from '../components/Paragraph'
-import Button from '../components/Button'
+import React, { useState, useEffect } from "react";
+import Background from "../components/Background";
+import { Text, Button, ScrollView, StyleSheet, View } from "react-native";
 
-const ElevatorStatus = ({ navigation }) => (
-  <Background>
-    <Logo />
-    <Header>Let’s start</Header>
-    <Paragraph>
-      Your amazing app starts here. Open you favorite code editor and start
-      editing this project.
-    </Paragraph>
-    <Button
-      mode="outlined"
-      onPress={() =>
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'StartScreen' }],
-        })
-      }
-    >
-      Logout
-    </Button>
-  </Background>
-)
+const ElevatorStatus = ({ route }) => {
+  const [elevator, setElevator] = useState(() => route.params);
 
-export default ElevatorStatus
+  return (
+    <View style={styles.container}>
+      <ScrollView>
+        <Text>Id: {elevator.id}</Text>
+        <Text>Status: {elevator.status}</Text>
+      </ScrollView>
+    </View>
+  );
+};
+
+export default ElevatorStatus;
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
