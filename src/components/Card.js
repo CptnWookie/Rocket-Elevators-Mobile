@@ -26,5 +26,23 @@ const styles = StyleSheet.create({
     cardContent: {
         marginHorizontal: 20,
         marginVertical: 15
-    }
+    },
+    cardTextActive: {
+        fontSize: 20,
+        color: "rgb(0, 255, 0)",
+        textShadowColor:'#000000',
+        textShadowRadius: 10,
+    },
+    cardTextInactive: {
+        fontSize: 20,
+        color: "rgb(255, 0, 0)",
+        textShadowColor:'#000000',
+        textShadowRadius: 10,
+    },
+    cardTextElse: {
+        fontSize: 22,
+        color: "rgb(255, 255, 255)",
+        textShadowColor:'#000000',
+        textShadowRadius: 10,
+      }
 });

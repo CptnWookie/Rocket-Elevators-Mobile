@@ -1,23 +1,13 @@
 Global = require("../core/Global");
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  ScrollView,
-  ActivityIndicator,
-  Button,
-  FlatList,
-  ImageBackground,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { Text, View, ScrollView, Button, ImageBackground, TouchableOpacity, StyleSheet, } from "react-native";
 import Background from "../assets/elevbackground5.jpeg";
 import { useIsFocused } from "@react-navigation/native";
 import Card from "../components/Card";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
 
-// export default class Home extends React.Component {
+// This is the HomeScreen view
 const HomeScreen = (props) => {
   const isFocused = useIsFocused();
   const [state, setState] = useState(() => {
@@ -28,10 +18,12 @@ const HomeScreen = (props) => {
     };
   });
 
+  // This is where the Not in Operation Elevators are loaded but only once. If the page is refreshed from Elevator Status page, only the list will be updated
   useEffect(() => {
     getInformationAboutElevators();
   }, []);
 
+  // This is where the Not in Operation Elevators are loaded when coming back from ElevatorStatus View
   useEffect(() => {
     removeTempFromListIfActive();
     
@@ -39,6 +31,7 @@ const HomeScreen = (props) => {
     console.log(Global.tempElev);
   }, [isFocused]);
 
+  // This is where the Elevator whom got his status updated will be removed from the list
   const removeTempFromListIfActive = () => {
     if (Global.tempElev.isActive) {
       setState((prev) => {
@@ -57,22 +50,26 @@ const HomeScreen = (props) => {
         }
 
         Global.tempElev.isActive = false;
-
-        const tempState = {
+        
+        let tempState = {
           isLoading: false,
           dataLength: num,
           dataNumberElevatorsOff: tempList,
         }
+        console.log(tempState)
 
         return tempState;
       });
     }
   };
 
+  // This is where the API call is made to gather the list of Not in Operation Elevators is made
   const getInformationAboutElevators = async () => {
     await axios
       .get("https://rocketrestapi.azurewebsites.net/api/ElevatorsOff")
       .then((result) => {
+
+        // If the result from the call is 200 (which means the API is getting a response from the database), it will add 1 elevator to the list for each Elevator read
         if (result.status == 200) {
           let number = 0;
           result.data.forEach((elev) => (number += 1));
@@ -86,14 +83,16 @@ const HomeScreen = (props) => {
           });
         }
       })
-      .catch((err) => console.log(err));
+      .catch((error) => console.log(error));
   };
 
+  // This is the navigation action triggered by the button in the object below
   const navigateToElevatorStatus = (_item) => {
     Global.tempElev.elevatorId = _item.id;
     props.navigation.navigate("ElevatorStatus", _item);
   };
 
+  // This is where all the objects displayed on the app are set
   return (
     <View style={styles.container}>
       <ImageBackground source={Background} style={styles.background}>
@@ -126,10 +125,11 @@ const HomeScreen = (props) => {
 
 export default HomeScreen;
 
+// This is where the styles are defined instead of within the object's description
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "space-between",
   },
@@ -143,12 +143,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  // greetings: {
-  //   color: 'blue',
-  //   fontSize: 22,
-  //   marginHorizontal: 15,
-  //   marginBottom: 10,
-  // },
   information: {
     color: "blue",
     fontSize: 18,
