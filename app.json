@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "Simple Login Template",
-    "slug": "simple-login-template",
+    "name": "Rocket-Elevators-Mobile",
+    "slug": "Rocket-Elevators-Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logorocket.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logorocket.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
